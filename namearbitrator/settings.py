@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'jadauth.apps.NamepollConfig',
+	'jadauth.apps.JadauthConfig',
 	'namepoll.apps.NamepollConfig',
 ]
 
