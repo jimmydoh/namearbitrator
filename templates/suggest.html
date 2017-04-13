@@ -1,0 +1,46 @@
+{% extends '_base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+            <div class="card">
+				<div class="card-header">
+					<strong>New Suggestion</strong>
+				</div>
+				<div class="card-block">
+					<form method="POST" action="#" id="post-form">
+						{% csrf_token %}
+						<div class="form-group">
+							{{ form.name }}
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col">
+									<button type="button" class="btn btn-lg btn-success active" id="btn-yes">Yes</button>
+								</div>
+								<div class="col">
+									<button type="button" class="btn btn-lg" id="btn-maybe">Maybe</button>
+								</div>
+								<div class="col">
+									<button type="button" class="btn btn-lg" id="btn-no">No</button>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-outline-primary btn-lg btn-block">Submit</button>
+						</div>
+					</form>					
+				</div>
+				<div id="msg-box" style="display: none;">
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'js/custom-suggest.js' %}"></script>
+<script>
+</script>
+{% endblock %}
