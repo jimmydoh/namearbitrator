@@ -1,0 +1,18 @@
+{
+    "name": "Name-inator",
+    "icons": [
+        {
+            "src": "/static/icon/android-chrome-192x192.png?v=8je0Qk6YoB",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/icon/android-chrome-512x512.png?v=8je0Qk6YoB",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#5cb85c",
+    "background_color": "#5cb85c",
+    "display": "standalone"
+}

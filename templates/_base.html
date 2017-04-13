@@ -5,7 +5,21 @@
     <head>
         <meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>The Name-inator</title>
+		<title>Name-inator</title>		
+		<link rel="apple-touch-icon" sizes="180x180" href="{% static 'icons/apple-touch-icon.png?v=8je0Qk6YoB' %}">
+		<link rel="icon" type="image/png" href="{% static 'icons/favicon-32x32.png?v=8je0Qk6YoB' %}" sizes="32x32">
+		<link rel="icon" type="image/png" href="{% static 'icons/favicon-194x194.png?v=8je0Qk6YoB' %}" sizes="194x194">
+		<link rel="icon" type="image/png" href="{% static 'icons/android-chrome-192x192.png?v=8je0Qk6YoB' %}" sizes="192x192">
+		<link rel="icon" type="image/png" href="{% static 'icons/favicon-16x16.png?v=8je0Qk6YoB' %}" sizes="16x16">
+		<link rel="manifest" href="{% static 'icons/manifest.json?v=8je0Qk6YoB' %}">
+		<link rel="mask-icon" href="{% static 'icons/safari-pinned-tab.svg?v=8je0Qk6YoB' %}" color="#5cb85c">
+		<link rel="shortcut icon" href="{% static 'icons/favicon.ico?v=8je0Qk6YoB' %}">
+		<meta name="apple-mobile-web-app-title" content="Name-inator">
+		<meta name="application-name" content="Name-inator">
+		<meta name="msapplication-TileColor" content="#5cb85c">
+		<meta name="msapplication-TileImage" content="{% static 'icons/mstile-144x144.png?v=8je0Qk6YoB' %}">
+		<meta name="msapplication-config" content="{% static 'icons/browserconfig.xml?v=8je0Qk6YoB' %}">
+		<meta name="theme-color" content="#5cb85c">
 		<!-- Core CSS - Include with every page -->
 		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 		<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
@@ -13,7 +27,7 @@
 	</head>
 	<body>
 		<nav class="navbar fixed-top navbar-toggleable-sm navbar-inverse bg-inverse">				
-			<a class="navbar-brand" href="{% url 'home' %}"><strong>The Name-inator</strong></a>
+			<a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'icons/favicon-32x32.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">Name-inator</a>
 			{% if user.is_authenticated %}
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
