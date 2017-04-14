@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^submit_suggestion$', views.submit_suggestion),
     url(r'^remove_suggestion$', views.remove_suggestion),
     url(r'^suggestions$', views.suggestions, name='suggestions'),
+    url(r'^analytics$', views.analytics, name='analytics'),
 ]

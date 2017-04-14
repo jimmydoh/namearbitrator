@@ -1,0 +1,206 @@
+{% extends '_base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="container">
+	<div class="row">
+        <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+			
+			<div class="card">
+				<div class="card-header">
+					
+					<ul class="nav nav-tabs card-header-tabs" role="tablist">
+					  <li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#{{ user_current.account }}-tab" role="tab">{{ user_current.account.first_name }}</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#{{ user_partner.account }}-tab" role="tab">{{ user_partner.account.first_name }}</a>
+					  </li>					  
+					</ul>
+				</div>				
+				<div class="card-block">
+					<div class="tab-content">
+						<div class="tab-pane fade show active text-center" id="{{ user_current.account }}-tab" role="tabpanel">							
+							<h6>{{ user_current }} has suggested {{ stat_user_current_suggestions.total }} names.</h6>
+							<div class="row">
+								<div class="col-12 col-md-12 col-lg-6">
+									<canvas id="chart-{{ user_current.account }}-gender"></canvas>
+								</div>
+								<div class="col-12 col-md-12 col-lg-6">
+									<canvas id="chart-{{ user_current.account }}-choices"></canvas>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade text-center" id="{{ user_partner.account }}-tab" role="tabpanel">							
+							<h6>{{ user_partner }} has suggested {{ stat_user_partner_suggestions.total }} names.</h6>
+							<div class="row">
+								<div class="col-12 col-md-12 col-lg-6">
+									<canvas id="chart-{{ user_partner.account }}-gender"></canvas>
+								</div>
+								<div class="col-12 col-md-12 col-lg-6">
+									<canvas id="chart-{{ user_partner.account }}-choices"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer text-center">
+					<h3>{{ user_current_selection_group }}</h3>
+					<h5>{{ stat_suggestions_total }} total suggestions</h5>
+				</div>				
+			</div>	
+
+			<div id="msg-box" style="display: none;">
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
+<div class="container">
+	<p>{{ user_partner }} has suggested {{ stat_user_partner_suggestions_total }} names.</p>
+	
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'js/Chart.bundle.min.js' %}"></script>
+<script>
+	var ctx_{{ user_current.account }}_gender = document.getElementById("chart-{{ user_current.account }}-gender");
+	
+	var data_{{ user_current.account }}_gender = {
+		labels: [
+			"Girl",
+			"Boy",
+		],
+		datasets: [
+			{
+				data: [{{ stat_user_current_suggestions.girl }}, {{ stat_user_current_suggestions.boy }}],
+				backgroundColor: [
+					"#FF6384",
+					"#36A2EB"
+				],
+				hoverBackgroundColor: [
+					"#FF6384",
+					"#36A2EB"
+				]
+			}]
+	};
+	
+	var chart_{{ user_current.account }}_Gender = new Chart(ctx_{{ user_current.account }}_gender,{
+		type: 'pie',
+		data: data_{{ user_current.account }}_gender,
+		options: {
+			animation:{
+				animateScale:true
+			}
+		}
+	});
+	
+	
+	
+	var ctx_{{ user_current.account }}_choices = document.getElementById("chart-{{ user_current.account }}-choices");
+	
+	var data_{{ user_current.account }}_choices = {
+		labels: [
+			"Yes",
+			"Maybe",
+			"No",
+		],
+		datasets: [
+			{
+				data: [{{ stat_user_current_suggestions.yes }}, {{ stat_user_current_suggestions.maybe }}, {{ stat_user_current_suggestions.no }}],
+				backgroundColor: [
+					'rgb(75, 192, 192)',
+					'rgb(255, 206, 86)',
+					'rgb(255, 99, 132)',
+				],
+				hoverBackgroundColor: [
+					'rgb(75, 192, 192)',
+					'rgb(255, 206, 86)',
+					'rgb(255, 99, 132)',
+				]
+			}]
+	};
+	
+	var chart_{{ user_current.account }}_Choices = new Chart(ctx_{{ user_current.account }}_choices,{
+		type: 'pie',
+		data: data_{{ user_current.account }}_choices,
+		options: {
+			animation:{
+				animateScale:true
+			}
+		}
+	});
+	
+	
+	
+	
+	var ctx_{{ user_partner.account }}_gender = document.getElementById("chart-{{ user_partner.account }}-gender");
+	
+	var data_{{ user_partner.account }}_gender = {
+		labels: [
+			"Girl",
+			"Boy",
+		],
+		datasets: [
+			{
+				data: [{{ stat_user_partner_suggestions.girl }}, {{ stat_user_partner_suggestions.boy }}],
+				backgroundColor: [
+					"#FF6384",
+					"#36A2EB"
+				],
+				hoverBackgroundColor: [
+					"#FF6384",
+					"#36A2EB"
+				]
+			}]
+	};
+	
+	var chart_{{ user_partner.account }}_Gender = new Chart(ctx_{{ user_partner.account }}_gender,{
+		type: 'pie',
+		data: data_{{ user_partner.account }}_gender,
+		options: {
+			animation:{
+				animateScale:true
+			}
+		}
+	});
+	
+	
+	
+	var ctx_{{ user_partner.account }}_choices = document.getElementById("chart-{{ user_partner.account }}-choices");
+	
+	var data_{{ user_partner.account }}_choices = {
+		labels: [
+			"Yes",
+			"Maybe",
+			"No",
+		],
+		datasets: [
+			{
+				data: [{{ stat_user_partner_suggestions.yes }}, {{ stat_user_partner_suggestions.maybe }}, {{ stat_user_partner_suggestions.no }}],
+				backgroundColor: [
+					'rgb(75, 192, 192)',
+					'rgb(255, 206, 86)',
+					'rgb(255, 99, 132)',
+				],
+				hoverBackgroundColor: [
+					'rgb(75, 192, 192)',
+					'rgb(255, 206, 86)',
+					'rgb(255, 99, 132)',
+				]
+			}]
+	};
+	
+	var chart_{{ user_partner.account }}_Choices = new Chart(ctx_{{ user_partner.account }}_choices,{
+		type: 'pie',
+		data: data_{{ user_partner.account }}_choices,
+		options: {
+			animation:{
+				animateScale:true
+			}
+		}
+	});
+</script>
+<script src="{% static 'js/custom-analytics.js' %}"></script>
+{% endblock %}

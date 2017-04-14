@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from .forms import SuggestionForm
-from .models import Suggestion, Selector
+from .models import Suggestion, Selector, SelectionGroup
 
 import json
 
@@ -106,3 +106,45 @@ def suggestions(request):
         }
     
     return render(request, 'suggestions.html', parameters)
+
+@login_required(login_url="login/")
+def analytics(request):
+    user_current = Selector.objects.get(account=request.user)
+    user_current_selection_group = SelectionGroup.objects.get(selector__account=user_current.account)
+    user_partner = user_current_selection_group.selector_set.exclude(account=request.user).get()
+
+    #Count data
+
+    #Current User
+    stat_user_current_suggestions = {
+            'girl': Suggestion.objects.filter(selector=user_current).filter(gender=Suggestion.GIRL).count(),
+            'boy': Suggestion.objects.filter(selector=user_current).filter(gender=Suggestion.BOY).count(),
+            'yes': Suggestion.objects.filter(selector=user_current).filter(suggestion_type=Suggestion.YES).count(),
+            'maybe': Suggestion.objects.filter(selector=user_current).filter(suggestion_type=Suggestion.MAYBE).count(),
+            'no': Suggestion.objects.filter(selector=user_current).filter(suggestion_type=Suggestion.NO).count(),
+            'total': Suggestion.objects.filter(selector=user_current).count(),
+        }
+
+    #Partner
+    stat_user_partner_suggestions = {
+            'girl': Suggestion.objects.filter(selector=user_partner).filter(gender=Suggestion.GIRL).count(),
+            'boy': Suggestion.objects.filter(selector=user_partner).filter(gender=Suggestion.BOY).count(),
+            'yes': Suggestion.objects.filter(selector=user_partner).filter(suggestion_type=Suggestion.YES).count(),
+            'maybe': Suggestion.objects.filter(selector=user_partner).filter(suggestion_type=Suggestion.MAYBE).count(),
+            'no': Suggestion.objects.filter(selector=user_partner).filter(suggestion_type=Suggestion.NO).count(),
+            'total': Suggestion.objects.filter(selector=user_partner).count(),
+        }
+    
+    #Totals
+    stat_suggestions_total = Suggestion.objects.filter(selector=user_current).count() + Suggestion.objects.filter(selector=user_partner).count()
+
+    parameters = {
+            'user_current': user_current,
+            'user_current_selection_group': user_current_selection_group,
+            'user_partner': user_partner,
+            'stat_user_current_suggestions': stat_user_current_suggestions,
+            'stat_user_partner_suggestions': stat_user_partner_suggestions,
+            'stat_suggestions_total': stat_suggestions_total,
+        }
+    
+    return render(request, 'analytics.html', parameters)
