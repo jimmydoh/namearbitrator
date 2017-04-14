@@ -32,15 +32,16 @@ def submit_suggestion(request):
     if request.method == 'POST':
         suggestion_name = request.POST.get('name')
         suggestion_suggestion_type = request.POST.get('suggestion_type')
+        suggestion_gender = request.POST.get('gender')
         response_data = {}
 
         #Check the data
-        if Suggestion.objects.filter(selector=Selector.objects.get(account=request.user)).filter(name__iexact=suggestion_name).count() > 0:
+        if Suggestion.objects.filter(selector=Selector.objects.get(account=request.user)).filter(gender=suggestion_gender).filter(name__iexact=suggestion_name).count() > 0:
             #Name already exists
             response_data['result'] = 'Failure'
             response_data['html_message'] = '<div class="alert alert-danger">You have already entered <strong>' + suggestion_name + '</strong> in the past</div>'
         else:
-            suggestion = Suggestion(name=suggestion_name, suggestion_type=suggestion_suggestion_type,selector=Selector.objects.get(account=request.user))
+            suggestion = Suggestion(name=suggestion_name, suggestion_type=suggestion_suggestion_type, gender=suggestion_gender, selector=Selector.objects.get(account=request.user))
             suggestion.save()
 
             response_data['result'] = 'Success'
@@ -48,6 +49,7 @@ def submit_suggestion(request):
             response_data['pk'] = suggestion.pk
             response_data['name'] = suggestion.name
             response_data['suggestion_type'] = suggestion.get_suggestion_type_display()
+            response_data['gender'] = suggestion.get_gender_display()
             response_data['selector'] = suggestion.selector.account.username
 
         return HttpResponse(
@@ -95,10 +97,12 @@ def remove_suggestion(request):
 @login_required(login_url="login/")
 def suggestions(request):
     # Retrieve existing suggestion set
-    suggestion_set = Suggestion.objects.filter(selector=Selector.objects.get(account=request.user))
+    girl_set = Suggestion.objects.filter(selector=Selector.objects.get(account=request.user)).filter(gender=Suggestion.GIRL)
+    boy_set = Suggestion.objects.filter(selector=Selector.objects.get(account=request.user)).filter(gender=Suggestion.BOY)
 
     parameters = {
-            'suggestion_set': suggestion_set,
+            'girl_set': girl_set,
+            'boy_set': boy_set,
         }
     
     return render(request, 'suggestions.html', parameters)

@@ -19,10 +19,10 @@ class SelectorAdmin(admin.ModelAdmin):
 class SuggestionAdmin(admin.ModelAdmin):
     readonly_fields = ['created','last_checked']
     fieldsets = [
-        (None,  {'fields':['suggestion_type','name','selector']}),
+        (None,  {'fields':['suggestion_type','gender','name','selector']}),
         ('Extra Info',{'fields':['created','last_checked'], 'classes':['collapse']}),
     ]
-    list_display = ('__str__','suggestion_type','selector',)
+    list_display = ('__str__','suggestion_type','gender','selector',)
 
 admin.site.register(SelectionGroup, SelectionGroupAdmin)
 admin.site.register(Selector, SelectorAdmin)

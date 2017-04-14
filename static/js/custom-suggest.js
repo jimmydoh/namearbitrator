@@ -1,5 +1,6 @@
 $(function() {
 	var suggestion_type_value = "0";
+	var gender_value = "0";
 
     // Submit post on submit
     $('#post-form').on('submit', function(event){
@@ -10,24 +11,36 @@ $(function() {
     });
 	
 	$( "#btn-yes" ).click(function() {
-	  $( "#btn-yes" ).addClass("active btn-success");
-	  $( "#btn-maybe" ).removeClass("active btn-success");
-	  $( "#btn-no" ).removeClass("active btn-success");	
+	  $( "#btn-yes" ).addClass("active");
+	  $( "#btn-maybe" ).removeClass("active");
+	  $( "#btn-no" ).removeClass("active");	
 	  suggestion_type_value = "0";	  
 	});
 	
 	$( "#btn-no" ).click(function() {
-	  $( "#btn-yes" ).removeClass("active btn-success");
-	  $( "#btn-maybe" ).removeClass("active btn-success");
-	  $( "#btn-no" ).addClass("active btn-success");
+	  $( "#btn-yes" ).removeClass("active");
+	  $( "#btn-maybe" ).removeClass("active");
+	  $( "#btn-no" ).addClass("active");
 	  suggestion_type_value = "2";
 	});
 	
 	$( "#btn-maybe" ).click(function() {
-	  $( "#btn-yes" ).removeClass("active btn-success");
-	  $( "#btn-maybe" ).addClass("active btn-success");
-	  $( "#btn-no" ).removeClass("active btn-success");	
+	  $( "#btn-yes" ).removeClass("active");
+	  $( "#btn-maybe" ).addClass("active");
+	  $( "#btn-no" ).removeClass("active");	
 	  suggestion_type_value = "1";
+	});
+	
+	$( "#btn-girl" ).click(function() {
+	  $( "#btn-girl" ).addClass("active");
+	  $( "#btn-boy" ).removeClass("active");
+	  gender_value = "0";	  
+	});
+	
+	$( "#btn-boy" ).click(function() {
+	  $( "#btn-boy" ).addClass("active");
+	  $( "#btn-girl" ).removeClass("active");
+	  gender_value = "1";	  
 	});
 
     // AJAX for posting
@@ -38,7 +51,8 @@ $(function() {
             type : "POST", // http method
             data : { 
 				name : $('#id_name.form-control').val(),
-				suggestion_type : suggestion_type_value
+				suggestion_type : suggestion_type_value,
+				gender : gender_value
 				},
 
             // handle a successful response

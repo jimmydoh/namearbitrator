@@ -26,19 +26,20 @@
 		<link href="{% static 'css/custom-global.css' %}" rel="stylesheet">
 	</head>
 	<body>
-		<nav class="navbar fixed-top navbar-toggleable-sm navbar-inverse bg-inverse">				
-			<a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'icons/favicon-32x32.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">Name-inator</a>
+		<nav class="navbar fixed-top navbar-toggleable-sm navbar-inverse bg-inverse">
 			{% if user.is_authenticated %}
-			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
-			</button>
+			</button>			
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<div class="navbar-nav">							
-					<a class="nav-item nav-link active" href="{% url 'home' %}">Home</a>
+				<a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'icons/favicon-32x32.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">Name-inator</a>
+				<div class="navbar-nav">
 					<a class="nav-item nav-link" href="{% url 'suggestions' %}">Suggestions</a>
-					<a class="nav-item nav-link" href="/logout">Logout</a>
+					<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
 				</div>
-			</div>
+			</div>	
+			{% else %}
+			<a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'icons/favicon-32x32.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">Name-inator</a>
 			{% endif %}
 		</nav>
 		{% block content %}

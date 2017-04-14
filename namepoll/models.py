@@ -43,11 +43,24 @@ class Suggestion(models.Model):
         (NO, 'No'),
     )
     
+    GIRL = '0'
+    BOY = '1'
+    GENDER_CHOICES = (
+        (GIRL, 'Girl'),
+        (BOY, 'Boy'),
+    )
+    
     name = models.CharField(max_length=50, blank=False)
     suggestion_type = models.CharField(
         max_length=1,
         choices=SUGGESTION_TYPE_CHOICES,
         default=YES,
+        blank=False,
+    )
+    gender = models.CharField(
+        max_length=1,
+        choices=GENDER_CHOICES,
+        default=BOY,
         blank=False,
     )
     created = models.DateTimeField(auto_now_add=True)

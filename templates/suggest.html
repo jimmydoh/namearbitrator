@@ -12,20 +12,16 @@
 					<form method="POST" action="#" id="post-form">
 						{% csrf_token %}
 						<div class="form-group">
+							<button type="button" class="btn btn-lg btn-girl active" id="btn-girl">Girl</button>
+							<button type="button" class="btn btn-lg btn-boy" id="btn-boy">Boy</button>
+						</div>
+						<div class="form-group">
 							{{ form.name }}
 						</div>
 						<div class="form-group">
-							<div class="row">
-								<div class="col">
-									<button type="button" class="btn btn-lg btn-success active" id="btn-yes">Yes</button>
-								</div>
-								<div class="col">
-									<button type="button" class="btn btn-lg" id="btn-maybe">Maybe</button>
-								</div>
-								<div class="col">
-									<button type="button" class="btn btn-lg" id="btn-no">No</button>
-								</div>
-							</div>
+							<button type="button" class="btn btn-lg btn-outline-success active" id="btn-yes">Yes</button>
+							<button type="button" class="btn btn-lg btn-outline-success" id="btn-maybe">Maybe</button>
+							<button type="button" class="btn btn-lg btn-outline-success" id="btn-no">No</button>
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-outline-primary btn-lg btn-block">Submit</button>

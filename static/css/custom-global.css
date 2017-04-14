@@ -1,3 +1,65 @@
 body {
     padding-top: 5rem;
 }
+
+.btn-girl {
+  color: #e76486;
+  background-image: none;
+  background-color: transparent;
+  border-color: #e46083;
+}
+
+.btn-girl:hover {
+  color: #fff;
+  background-color: #e76486;
+  border-color: #e46083;
+}
+
+.btn-girl:focus, .btn-girl.focus {
+  -webkit-box-shadow: 0 0 0 2px rgba(231, 100, 134, 0.5);
+          box-shadow: 0 0 0 2px rgba(231, 100, 134, 0.5);
+}
+
+.btn-girl.disabled, .btn-girl:disabled {
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.btn-girl:active, .btn-girl.active,
+.show > .btn-girl.dropdown-toggle {
+  color: #fff;
+  background-color: #e76486;
+  background-image: none;
+  border-color: #e46083;
+}
+
+.btn-boy {
+  color: #70b7f0;
+  background-image: none;
+  background-color: transparent;
+  border-color: #70b7f0;
+}
+
+.btn-boy:hover {
+  color: #fff;
+  background-color: #70b7f0;
+  border-color: #70b7f0;
+}
+
+.btn-boy:focus, .btn-boy.focus {
+  -webkit-box-shadow: 0 0 0 2px rgba(112, 183, 240, 0.5);
+          box-shadow: 0 0 0 2px rgba(112, 183, 240, 0.5);
+}
+
+.btn-boy.disabled, .btn-boy:disabled {
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.btn-boy:active, .btn-boy.active,
+.show > .btn-boy.dropdown-toggle {
+  color: #fff;
+  background-color: #70b7f0;
+  background-image: none;
+  border-color: #70b7f0;
+}
