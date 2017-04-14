@@ -1,5 +1,26 @@
 $(function() {
 	
+	function toggle_records_choice(choice) {
+		$("td").filter(function() {
+			return $(this).text() == choice;
+		}).closest("tr").toggle();
+	}
+	
+	$( "#btn-yes" ).click(function() {
+	  $(this).toggleClass('active');
+	  toggle_records_choice("Yes");	  
+	});
+	
+	$( "#btn-maybe" ).click(function() {
+	  $(this).toggleClass('active');
+	  toggle_records_choice("Maybe");	  
+	});
+	
+	$( "#btn-no" ).click(function() {
+	  $(this).toggleClass('active');
+	  toggle_records_choice("No");	  
+	});
+	
 	$(".btn-del").click(function() {
 		var suggestion_id = $(this).attr("href").substring(1);
 		var suggestion_name = $(this).parent().siblings("th").text();

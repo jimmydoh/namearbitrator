@@ -7,6 +7,12 @@
 			
 			<div class="card">
 				<div class="card-header">
+				
+					<nav class="navbar navbar-light bg-faded">
+					  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					  </button>					  
+					</nav>
 					
 					<ul class="nav nav-tabs card-header-tabs" role="tablist">
 					  <li class="nav-item">
@@ -15,13 +21,28 @@
 					  <li class="nav-item">
 						<a class="nav-link" data-toggle="tab" href="#boy" role="tab">Boys</a>
 					  </li>
-					</ul>
-				</div>				
+					</ul>	
+					
+				</div>
 				<div class="card-block">
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					    <div class="row">
+						  <div class="col text-center">
+						    <h4>Filters</h4>
+						  </div>
+						</div>
+						<div class="row">
+						  <div class="col text-center">
+							<button type="button" class="btn btn-outline-success active" id="btn-yes">Yes</button>
+							<button type="button" class="btn btn-outline-success active" id="btn-maybe">Maybe</button>
+							<button type="button" class="btn btn-outline-success active" id="btn-no">No</button>
+						  </div>
+						</div>
+					  </div>
 					<div class="tab-content">
 						<div class="tab-pane fade show active" id="girl" role="tabpanel">
 							{% if girl_set %}							
-								<table class="table table-striped">
+								<table class="table table-hover">
 								  <thead>
 									<tr>
 									  <th>Name</th>
@@ -34,7 +55,7 @@
 									{% for suggestion in girl_set %}
 									<tr>
 									  <th scope="row">{{ suggestion.name }}</th>
-									  <td>{{ suggestion.get_suggestion_type_display }}</td>
+									  <td class="choice-cell">{{ suggestion.get_suggestion_type_display }}</td>
 									  <td>{{ suggestion.get_gender_display }}</td>
 									  <td>
 										<a class="btn-del" href="#{{ suggestion.pk }}">
@@ -53,7 +74,7 @@
 							
 						<div class="tab-pane fade" id="boy" role="tabpanel">
 							{% if boy_set %}					
-							<table class="table table-striped">
+							<table class="table table-hover">
 							  <thead>
 								<tr>
 								  <th>Name</th>
@@ -84,9 +105,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-footer text-center">
-					<strong>Suggestions - {{ request.user.first_name }}</strong>
-				</div>				
 			</div>	
 
 			<div id="msg-box" style="display: none;">
