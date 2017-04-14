@@ -7,6 +7,7 @@ from .forms import SuggestionForm
 from .models import Suggestion, Selector, SelectionGroup
 
 import json
+import datetime
 
 @login_required(login_url="login/")
 def home(request):
@@ -138,9 +139,101 @@ def analytics(request):
     #Totals
     stat_suggestions_total = Suggestion.objects.filter(selector=user_current).count() + Suggestion.objects.filter(selector=user_partner).count()
 
+    #Comparison Data
+
+    date_from = datetime.datetime.now() #- datetime.timedelta(days=1)
+    #Retrieve suggestions of current user
+    suggestions = Suggestion.objects.filter(selector=user_current, last_checked__lte=date_from)
+    matches_yesyes = list()
+    matches_yesmaybe = list()
+    matches_yesno = list()
+    matches_maybeyes = list()
+    matches_maybemaybe = list()
+    matches_maybeno = list()
+    matches_noyes = list()
+    matches_nomaybe = list()
+    matches_nono = list()
+    matches_nomatch = 0;
+    for suggestion in suggestions:
+        #For current user YES
+        if suggestion.suggestion_type==Suggestion.YES:
+            match_yesyes = Suggestion.objects.filter(selector=user_partner,name=suggestion.name,gender=suggestion.gender,suggestion_type=Suggestion.YES).first()
+            if match_yesyes:
+                matches_yesyes.append(match_yesyes)
+            else:
+                match_yesmaybe = Suggestion.objects.filter(selector=user_partner,name=suggestion.name,gender=suggestion.gender,suggestion_type=Suggestion.MAYBE).first()
+                if match_yesmaybe:
+                    matches_yesmaybe.append(match_yesmaybe)
+                else:
+                    match_yesno = Suggestion.objects.filter(selector=user_partner,name=suggestion.name,gender=suggestion.gender,suggestion_type=Suggestion.NO).first()
+                    if match_yesno:
+                        matches_yesno.append(match_yesno)
+                    else:
+                        matches_nomatch = matches_nomatch + 1
+        #For current user MAYBE
+        elif suggestion.suggestion_type==Suggestion.MAYBE:
+            match_maybeyes = Suggestion.objects.filter(selector=user_partner,name=suggestion.name,gender=suggestion.gender,suggestion_type=Suggestion.YES).first()
+            if match_maybeyes:
+                matches_maybeyes.append(match_maybeyes)
+            else:
+                match_maybemaybe = Suggestion.objects.filter(selector=user_partner,name=suggestion.name,gender=suggestion.gender,suggestion_type=Suggestion.MAYBE).first()
+                if match_maybemaybe:
+                    matches_maybemaybe.append(match_maybemaybe)
+                else:
+                    match_maybeno = Suggestion.objects.filter(selector=user_partner,name=suggestion.name,gender=suggestion.gender,suggestion_type=Suggestion.NO).first()
+                    if match_maybeno:
+                        matches_maybeno.append(match_maybeno)
+                    else:
+                        matches_nomatch = matches_nomatch + 1
+        #For current user NO
+        elif suggestion.suggestion_type==Suggestion.NO:
+            match_noyes = Suggestion.objects.filter(selector=user_partner,name=suggestion.name,gender=suggestion.gender,suggestion_type=Suggestion.YES).first()
+            if match_noyes:
+                matches_noyes.append(match_noyes)
+            else:
+                match_nomaybe = Suggestion.objects.filter(selector=user_partner,name=suggestion.name,gender=suggestion.gender,suggestion_type=Suggestion.MAYBE).first()
+                if match_nomaybe:
+                    matches_nomaybe.append(match_nomaybe)
+                else:
+                    match_nono = Suggestion.objects.filter(selector=user_partner,name=suggestion.name,gender=suggestion.gender,suggestion_type=Suggestion.NO).first()
+                    if match_nono:
+                        matches_nono.append(match_nono)
+                    else:
+                        matches_nomatch = matches_nomatch + 1
+        else:
+            matches_nomatch = matches_nomatch + 1
+            
+    matches = {
+        'matches_yesyes': matches_yesyes,
+        'matches_yesmaybe': matches_yesmaybe,
+        'matches_yesno': matches_yesno,
+        'matches_maybeyes': matches_maybeyes,
+        'matches_maybemaybe': matches_maybemaybe,
+        'matches_maybeno': matches_maybeno,
+        'matches_noyes': matches_noyes,
+        'matches_nomaybe': matches_nomaybe,
+        'matches_nono': matches_nono,
+        }
+
+    matches_count = {
+        'matches_yesyes': len(matches_yesyes),
+        'matches_yesmaybe': len(matches_yesmaybe),
+        'matches_yesno': len(matches_yesno),
+        'matches_maybeyes': len(matches_maybeyes),
+        'matches_maybemaybe': len(matches_maybemaybe),
+        'matches_maybeno': len(matches_maybeno),
+        'matches_noyes': len(matches_noyes),
+        'matches_nomaybe': len(matches_nomaybe),
+        'matches_nono': len(matches_nono),
+        'matches_nomatch': matches_nomatch,
+        }
+
     parameters = {
             'user_current': user_current,
             'user_current_selection_group': user_current_selection_group,
+            'suggestions': suggestions,
+            'matches': matches,
+            'matches_count': matches_count,
             'user_partner': user_partner,
             'stat_user_current_suggestions': stat_user_current_suggestions,
             'stat_user_partner_suggestions': stat_user_partner_suggestions,

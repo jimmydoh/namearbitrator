@@ -14,6 +14,9 @@
 					  </li>
 					  <li class="nav-item">
 						<a class="nav-link" data-toggle="tab" href="#{{ user_partner.account }}-tab" role="tab">{{ user_partner.account.first_name }}</a>
+					  </li>	
+					  <li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#results-tab" role="tab">Results</a>
 					  </li>					  
 					</ul>
 				</div>				
@@ -39,6 +42,104 @@
 								<div class="col-12 col-md-12 col-lg-6">
 									<canvas id="chart-{{ user_partner.account }}-choices"></canvas>
 								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="results-tab" role="tabpanel">
+							<div class="row">
+								<div class="col-12 col-md-12 col-lg-12">
+									<div id="accordion" role="tablist" aria-multiselectable="true">
+									  <div class="card">
+										<div class="card-header" role="tab" id="headingYesYes">
+										  <h5 class="mb-0">
+											<a class="nav-link collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseYesYes" aria-expanded="true" aria-controls="collapseYesYes">
+											  <span class="badge badge-pill {% if matches_count.matches_yesyes > 0 %}badge-success{% else %}badge-default{% endif %}">{{ matches_count.matches_yesyes }}</span>  Perfect Yes matches!
+											</a>
+										  </h5>
+										</div>
+										<div id="collapseYesYes" class="collapse" role="tabpanel" aria-labelledby="headingYesYes">
+										  <div class="card-block">
+										    {% for match in matches.matches_yesyes %}
+											<h6>Match for a <strong>{{ match.get_gender_display }}</strong>!</h6>
+											{% endfor %}
+										  </div>
+										</div>
+									  </div>
+									  <div class="card">
+										<div class="card-header" role="tab" id="headingYesMaybe">
+										  <h5 class="mb-0">
+											<a class="nav-link collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseYesMaybe" aria-expanded="false" aria-controls="collapseYesMaybe">
+											  <span class="badge badge-pill {% if matches_count.matches_yesmaybe > 0 %}badge-info{% else %}badge-default{% endif %}">{{ matches_count.matches_yesmaybe }}</span>  You say Yes, {{ user_partner.account.first_name }} says Maybe
+											</a>
+										  </h5>
+										</div>
+										<div id="collapseYesMaybe" class="collapse" role="tabpanel" aria-labelledby="headingYesMaybe">
+										  <div class="card-block">
+										    {% for match in matches.matches_yesmaybe %}
+											<h6>Match for a <strong>{{ match.get_gender_display }}</strong>!</h6>
+											{% endfor %}
+										  </div>
+										</div>
+									  </div>
+									  <div class="card">
+										<div class="card-header" role="tab" id="headingMaybeYes">
+										  <h5 class="mb-0">
+											<a class="nav-link collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseMaybeYes" aria-expanded="false" aria-controls="collapseMaybeYes">
+											  <span class="badge badge-pill {% if matches_count.matches_maybeyes > 0 %}badge-info{% else %}badge-default{% endif %}">{{ matches_count.matches_maybeyes }}</span>  {{ user_partner.account.first_name }} says Maybe, you say Yes
+											</a>
+										  </h5>
+										</div>
+										<div id="collapseMaybeYes" class="collapse" role="tabpanel" aria-labelledby="headingMaybeYes">
+										  <div class="card-block">
+										    {% for match in matches.matches_maybeyes %}
+											<h6>Match for a <strong>{{ match.get_gender_display }}</strong>!</h6>
+											{% endfor %}
+										  </div>
+										</div>
+									  </div>
+									  <div class="card">
+										<div class="card-header" role="tab" id="headingMaybeMaybe">
+										  <h5 class="mb-0">
+											<a class="nav-link collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseMaybeMaybe" aria-expanded="false" aria-controls="collapseMaybeMaybe">
+											  <span class="badge badge-pill {% if matches_count.matches_maybemaybe > 0 %}badge-warning{% else %}badge-default{% endif %}">{{ matches_count.matches_maybemaybe }}</span>  Both say Maybe
+											</a>
+										  </h5>
+										</div>
+										<div id="collapseMaybeMaybe" class="collapse" role="tabpanel" aria-labelledby="headingMaybeMaybe">
+										  <div class="card-block">
+										    {% for match in matches.matches_maybemaybe %}
+											<h6>Match for a <strong>{{ match.get_gender_display }}</strong>!</h6>
+											{% endfor %}
+										  </div>
+										</div>
+									  </div>
+									  <div class="card">
+										<div class="card-header" role="tab" id="headingNoNo">
+										  <h5 class="mb-0">
+											<a class="nav-link collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseNoNo" aria-expanded="false" aria-controls="collapseNoNo">
+											  <span class="badge badge-pill {% if matches_count.matches_nono > 0 %}badge-danger{% else %}badge-default{% endif %}">{{ matches_count.matches_nono }}</span>  Agreed awful names
+											</a>
+										  </h5>
+										</div>
+										<div id="collapseNoNo" class="collapse" role="tabpanel" aria-labelledby="headingNoNo">
+										  <div class="card-block">
+											{% for match in matches.matches_nono %}
+											<h6><strong>{{ match.name }}</strong> for a <strong>{{ match.get_gender_display }}</strong></h6>
+											{% endfor %}
+										  </div>
+										</div>
+									  </div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+							<hr/>
+							</div>
+							<div class="row">
+							  <div class="col-12 col-md-12 col-lg-12">
+							    <p>There {% if matches_count.matches_yesno|add:matches_count.matches_maybeno == 0  %}is no suggestion {% else %}{{ matches_count.matches_yesno|add:matches_count.matches_maybeno|pluralize:"is,are" }} <span class="badge badge-info">{{ matches_count.matches_yesno|add:matches_count.matches_maybeno }}</span> suggestion{{ matches_count.matches_yesno|add:matches_count.matches_maybeno|pluralize }} {% endif %}that you have selected Yes or Maybe for, while {{ user_partner.account.first_name }} has selected No.</p>
+								<p>There {% if matches_count.matches_noyes|add:matches_count.matches_nomaybe == 0  %}is no suggestion {% else %}{{ matches_count.matches_noyes|add:matches_count.matches_nomaybe|pluralize:"is,are" }} <span class="badge badge-info">{{ matches_count.matches_noyes|add:matches_count.matches_nomaybe }}</span> suggestion{{ matches_count.matches_noyes|add:matches_count.matches_nomaybe|pluralize }} {% endif %}that you have selected No for, while {{ user_partner.account.first_name }} has selected Yes or Maybe.</p>
+								<p>Finally, there {% if matches_count.matches_nomatch == 0  %}is no suggestion {% else %}{{ matches_count.matches_nomatch|pluralize:"is,are" }} <span class="badge badge-info">{{ matches_count.matches_nomatch }}</span> suggestion{{ matches_count.matches_nomatch|pluralize }} {% endif %}that you have entered, but {{ user_partner.account.first_name }} has not thought of yet.</p>
+							  </div>
 							</div>
 						</div>
 					</div>
